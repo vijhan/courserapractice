@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import './App.css';
+import './index.css';
 
 function App() {
   
@@ -23,12 +24,15 @@ function App() {
         <div className='bottom'>
           <div className='feels'>
             <p>65F</p>
+            <p className='bold'>Feels Like</p>
           </div>
           <div className='humidity'>
             <p>20%</p>
+            <p className='bold'>Humidity</p>
           </div>
           <div className='wind'>
-            <p>12 MPH</p>
+            <p>12 mph</p>
+            <p className='bold'>Wind Spped</p>
           </div>
         </div>
       </div>
