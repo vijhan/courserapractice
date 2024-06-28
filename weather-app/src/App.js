@@ -1,40 +1,48 @@
 import React, {useState} from 'react';
-import axios from 'axios';
+import Weather from './components/Weather';
+import { getWeatherData } from './services/WeatherService';
 import './App.css';
 import './index.css';
 
 function App() {
+  const [data,setData] = useState({});
+  const [location,setLocation] = useState('');
+  const [error, setError] = useState(false);
+ 
+
+
+const searchLocation = (event) => {
+      if(event.key === 'Enter') {
   
-  //const url = `https://api.openweathermap.org/data/2.5/weather?q=dallas&appid=c85c8e2664cb51e16d3d83df98c1cd42`
+          getWeatherData(location).then((response) => {
+          setData(response.data)
+          console.log(response.data)
+          setError(false)
+          }).catch(function (error) {
+            console.log(error.toJSON());
+            setError(true);
+        });
+        
+        setLocation('');
+      }
+  }
+  
   
   return (
     <div className="app">
+      <div className='search'>
+        <input
+        value={location}
+        onChange={event => setLocation(event.target.value)}
+        onKeyPress={searchLocation}
+        placeholder='Enter City/State'
+        type='text'
+        />
+      </div>
       <div className='container'>
-        <div className='top'>
-          <div className='location'>
-            <p>Dallas</p>
-          </div>
-        </div>
-        <div className='temp'>
-          <h1>60F</h1>
-        </div>
-        <div className='description'>
-          <p>Clouds</p>
-        </div>
-        <div className='bottom'>
-          <div className='feels'>
-            <p>65F</p>
-            <p className='bold'>Feels Like</p>
-          </div>
-          <div className='humidity'>
-            <p>20%</p>
-            <p className='bold'>Humidity</p>
-          </div>
-          <div className='wind'>
-            <p>12 mph</p>
-            <p className='bold'>Wind Spped</p>
-          </div>
-        </div>
+      
+      {error ? <p>There was an error loading your data</p> : <Weather w={data}/>}
+    
       </div>
     </div>
   );
